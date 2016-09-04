@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-// holaa
-//Branch 1
-//commit 1
+//rama
 
 public class AvisoActivity extends AppCompatActivity {
 
