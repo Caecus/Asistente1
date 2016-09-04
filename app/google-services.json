@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "536422145993",
+    "firebase_url": "https://caecus-142316.firebaseio.com",
+    "project_id": "caecus-142316",
+    "storage_bucket": "caecus-142316.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536422145993:android:1b508adc582538c7",
+        "android_client_info": {
+          "package_name": "com.caecus.asistente"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536422145993-8ck6ip1fr5v7461pn3dhgmdlsto81e74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwzTw2zhelSMjoqcdJ3lN7zU-yFqNr_TA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

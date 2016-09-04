@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Asistente</string>
+    <string name="title_activity_mapa_ubicacion">Map</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="ver_mapa">Ver Mapa</string>
+    <string name="llamar">Llamar</string>
+    <string name="ver_video">Ver video</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="lblName">Usuario</string>
+    <string name="recibir_token">Recibir Token</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="mis_datos">MIS DATOS</string>
+    <string name="crear_cuenta">Crear Cuenta</string>
+    <string name="entrar">Entrar</string>
+    <string name="error_user">Error User</string>
+    <string name="emparejar">Emparejar</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="usuario">Usuario</string>
+</resources>
