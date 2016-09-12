@@ -7,66 +7,54 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.caecus.asistente.Entidades.Aviso;
-import com.caecus.asistente.restApi.EndpointsApi;
-import com.caecus.asistente.restApi.adapter.RestApiAdapter;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-//rama
-//branch 1
-//commit 3
-//branch probando
-//branch probando2
 
 public class AvisoActivity extends AppCompatActivity {
 
 
-    TextView mensaje1;
     TextView mensaje2;
     TextView nombre;
     double lat;
     double lng;
+    String telefono;
     Button llamar;
-    Aviso aviso;
+    int cod;
+    String name;
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aviso);
         UserSessionManager session = new UserSessionManager(getApplicationContext());
-        nombre = (TextView) findViewById(R.id.nombre);
-        mensaje1 = (TextView) findViewById(R.id.mensaje_id);
-        mensaje2 = (TextView) findViewById(R.id.mensaje_id2);
+        nombre = (TextView) findViewById(R.id.txtnombre);
+        mensaje2 = (TextView) findViewById(R.id.txtDireccion);
         llamar = (Button) findViewById(R.id.btnLlamar);
-        llamar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                call(aviso.getTelefono());
-            }
-        });
+
         Intent i = getIntent();
         Bundle extras = i.getExtras();
 
         try {
             lat = extras.getDouble("LAT");
             lng = extras.getDouble("LNG");
+            telefono = extras.getString("TEL");
 
         }
         catch (Exception e){}
+        llamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call(telefono);
+            }
+        });
 
 
 //        nombre.setText(aviso.getNombre());
@@ -74,7 +62,24 @@ public class AvisoActivity extends AppCompatActivity {
 
     }
 
-    public void call(int n) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+
+            Intent i = getIntent();
+            Bundle extras = i.getExtras();
+            cod = extras.getInt("COD");
+            name = extras.getString("NAME");
+            if (cod == 1) {
+                Alerta(name);
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    public void call(String n) {
         String s = "tel:" + n + "";
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse(s));
@@ -86,7 +91,7 @@ public class AvisoActivity extends AppCompatActivity {
 
 
     public String obtenerDireccion(double lat, double lng) {
-        String s = "No disponible aca";
+        String s = "No disponible";
         if (lat != 0.0 && lng != 0.0) {
             try {
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -109,6 +114,15 @@ public class AvisoActivity extends AppCompatActivity {
         intent.putExtra("EXTRA_LAT", lat);
         intent.putExtra("EXTRA_LNG", lng);
         startActivity(intent);
+    }
+
+    public void Alerta(String name) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AvisoActivity.this);
+        builder.setMessage("Puede ayudar a" + name)
+                .setNegativeButton("No", null)
+                .setPositiveButton("Si", null)
+                .create()
+                .show();
     }
 
 

@@ -12,48 +12,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mensaje_id" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mensaje_id2"
-        android:layout_gravity="top"
-        android:text="Jujuy 1379"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ver_mapa"
-        android:id="@+id/button"
-        android:onClick="verMapa"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/llamar"
-        android:id="@+id/btnLlamar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ver_video"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Ayuda solicitada por:"
         android:id="@+id/textTitle"
@@ -64,10 +22,106 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/nombre"
+        android:id="@+id/txtnombre"
         android:text="Apellido, Nombre"
         android:layout_marginTop="82dp"
         android:layout_below="@+id/textTitle"
-        android:layout_centerHorizontal="true" />
+        android:textSize="40sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentEnd="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtDireccion"
+        android:text="Direccion"
+        android:layout_gravity="top"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:id="@+id/campo_btnArriba"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_above="@+id/campo_btnAbajo">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ver_mapa"
+        android:layout_weight="1"
+        android:id="@+id/button"
+        android:onClick="verMapa"
+        android:drawableLeft="@drawable/ic_place_white_24dp"
+        android:drawablePadding="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorFont" />
+
+        <Button
+        android:layout_width="wrap_content"
+            android:layout_weight="1"
+        android:layout_height="wrap_content"
+            android:text="@string/ver_video"
+            android:drawableLeft="@drawable/ic_videocam_white_24dp"
+            android:drawablePadding="8dp"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorFont" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/campo_btnAbajo"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/boton_terminar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Terminar"
+            android:drawableLeft="@drawable/ic_close_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@color/colorFont" />
+
+        <Button
+            android:id="@+id/boton_redireccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Redirigir"
+            android:drawableLeft="@drawable/ic_autorenew_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@color/colorFont" />
+
+
+        />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/llamar"
+        android:layout_weight="1"
+        android:id="@+id/btnLlamar"
+        android:drawableLeft="@drawable/ic_phone_white_24dp"
+        android:drawablePadding="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorFont"
+        android:layout_above="@+id/campo_btnArriba"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

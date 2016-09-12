@@ -9,33 +9,51 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.caecus.asistente.MenuPdvActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrar PDV"
-        android:id="@+id/btnRegistrarPDV"
-        android:onClick="irNuevaCuentaPDV"
+    <LinearLayout
+        android:id="@+id/campo_btnAbajo"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ASOCIAR PDV"
-        android:id="@+id/btnAsociarPDV"
-        android:onClick="irEmparejarPDV"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar"
+            android:id="@+id/btnRegistrarPDV"
+            android:onClick="irNuevaCuentaPDV"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableLeft="@drawable/ic_group_add_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@color/colorFont" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asociar"
+            android:id="@+id/btnAsociarPDV"
+            android:onClick="irEmparejarPDV"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableLeft="@drawable/ic_link_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@color/colorFont" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="PDV"
+        android:text="Personas a cargo"
         android:id="@+id/txtListaPDV"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center" />
 
 </RelativeLayout>

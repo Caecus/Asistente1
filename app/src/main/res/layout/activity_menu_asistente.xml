@@ -9,61 +9,81 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.caecus.asistente.MenuAsistenteActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_centerVertical="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/avisos"
+            android:onClick="irAAvisos"
+            android:id="@+id/btnAvisos"
+            android:drawableLeft="@drawable/ic_report_problem_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"
+            android:textSize="24sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pdv"
+            android:id="@+id/btnPDV"
+            android:onClick="irAMenuPDV"
+            android:drawableLeft="@drawable/ic_group_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"
+            android:textSize="24sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mis_datos"
+            android:id="@+id/btnDatos"
+            android:drawableLeft="@drawable/ic_border_color_white_24dp"
+            android:drawablePadding="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"
+            android:textSize="24sp" />
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Menu"
-        android:id="@+id/textView10"
+        android:text="@string/lblMenu"
+        android:id="@+id/lblMenu"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"
+        android:textIsSelectable="false" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PDV"
-        android:id="@+id/btnPDV"
-        android:onClick="irAMenuPDV"
-        android:layout_below="@+id/textView10"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="41dp" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Avisos"
-        android:onClick="irAAvisos"
-        android:id="@+id/button5"
-        android:layout_below="@+id/btnPDV"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/mis_datos"
-        android:id="@+id/button6"
-        android:layout_below="@+id/button5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/cerrar_sesion"
         android:id="@+id/btnLogout"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:drawableLeft="@drawable/ic_power_settings_new_white_24dp"
+        android:drawablePadding="8dp"
+        android:onClick="logout"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#F44336"
+        android:textSize="24sp"
+        android:layout_alignParentBottom="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/error_user"
-        android:id="@+id/txtxUserName"
-        android:layout_alignBottom="@+id/textView10"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>

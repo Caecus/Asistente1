@@ -1,21 +1,25 @@
 package com.caecus.asistente;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caecus.asistente.restApi.EndpointsApi;
 import com.caecus.asistente.restApi.adapter.RestApiAdapter;
 import com.caecus.asistente.restApi.model.TokenResponse;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     UserSessionManager session;
     private TextView usuario;
     private TextView pass;
+    static private TextInputLayout tilEmail;
+    private TextInputLayout tilContraseña;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +39,22 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         usuario = (TextView) findViewById(R.id.txtuser);
         pass = (TextView) findViewById(R.id.txtpass);
+        tilEmail = (TextInputLayout) findViewById(R.id.til_usuario);
+        tilContraseña = (TextInputLayout) findViewById(R.id.til_contraseña);
         session = new UserSessionManager(getApplicationContext());
     }
+
 
     public void Login(View view) {
         String email = usuario.getText().toString();
         String password = pass.getText().toString();
-        if (email.trim().length() > 0 && password.trim().length() > 0) {
+        if (validar(email, password)) {
             Map<String, String> jsonBody;
             jsonBody = new HashMap<>();
             jsonBody.put("account", usuario.getText().toString());
             jsonBody.put("password", pass.getText().toString());
+            jsonBody.put("IMEI", getIMEI());
+            jsonBody.put("GCMtoken", FirebaseInstanceId.getInstance().getId());
             RestApiAdapter restApiAdapter = new RestApiAdapter();
 
             EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
@@ -51,34 +62,20 @@ public class LoginActivity extends AppCompatActivity {
             tokenResponseCall.enqueue(new Callback<TokenResponse>() {
                 @Override
                 public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
-                    Log.d("respuesta", "si");
                     TokenResponse tokenResponse = response.body();
-                    Log.d("respuesta", tokenResponse.toString());
-                    //JSONObject jsonResponse = response;
-                    // boolean success = response.getBoolean("success");
+                    long result = tokenResponse.getResult();
                     String token = tokenResponse.getToken();
-
-                    //boolean success = loginResponse.isSuccess();
-                    //  String token = loginResponse.getToken();
-                    // Log.d("token", token);
-
-                    if (token != null) {
-                        // String token = loginResponse.getToken();
-                        //if (success) {
+                    if (result == 0) {
                         Toast.makeText(getApplicationContext(),
                                 "Sesion iniciada",
                                 Toast.LENGTH_LONG).show();
-
-                        // String nombre = response.getString("nombre");
-                        // String token = response.getString("token");
-                        // String email = response.getString("email");
                         session.createUserLoginSession(token);
                         // Add new Flag to start new Activity
                         finish();
                         Intent intent = new Intent(LoginActivity.this, MenuAsistenteActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("token", token);
+
                         LoginActivity.this.startActivity(intent);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -95,10 +92,56 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
+        }
+    }
+
+    public boolean validar(String email, String contraseña)
+
+    {
+        boolean s = true;
+
+        if (email.trim().length() > 0) {
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            CharSequence inputStr = email;
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(inputStr);
+            if (matcher.matches()) {
+                tilEmail.setError(null);
+            } else {
+                tilEmail.setError("Formato inválido");
+                s = false;
+            }
         } else {
-            Toast.makeText(getApplicationContext(),
-                    "Ingrese email y contraseña",
-                    Toast.LENGTH_LONG).show();
+            tilEmail.setError("Campo vacío");
+            s = false;
+        }
+
+        if (contraseña.trim().length() > 0) {
+            tilContraseña.setError(null);
+
+        } else {
+            s = false;
+            tilContraseña.setError("Campo vacío");
+        }
+        return s;
+
+
+
+    }
+
+
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            tilEmail.setError(null);
+            return true;
+        } else {
+            tilEmail.setError("Email inválido");
+            return false;
         }
     }
 
@@ -106,4 +149,16 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, NuevaCuentaAsistenteActivity.class);
         this.startActivity(i);
     }
+
+    public String getIMEI() {
+
+        try {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            return tm.getDeviceId();
+        } catch (Exception E) {
+            return "Imei no encontrado";
+        }
+
+    }
+
 }

@@ -7,10 +7,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -61,7 +60,7 @@ public class MapaUbicacionActivity extends FragmentActivity implements OnMapRead
         marcador = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Atencion")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_record_voice_over_black_24dp)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_record_voice_over_black_24dp)));
         mMap.animateCamera(miUbicacion);
 
     }
