@@ -32,7 +32,7 @@
                 android:src="@drawable/ic_person_black_24dp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_usuario"
+                android:id="@+id/til_emailPDV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp">
@@ -64,7 +64,7 @@
                 android:src="@drawable/ic_lock_black_24dp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_contraseña"
+                android:id="@+id/til_pin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp">

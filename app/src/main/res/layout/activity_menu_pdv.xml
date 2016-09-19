@@ -56,4 +56,14 @@
         android:textColor="@color/colorAccent"
         android:textAlignment="center" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pdvList"
+        android:layout_below="@+id/txtListaPDV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/campo_btnAbajo"
+        android:choiceMode="singleChoice" />
+
 </RelativeLayout>

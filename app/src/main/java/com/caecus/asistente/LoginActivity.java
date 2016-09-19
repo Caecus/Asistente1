@@ -15,7 +15,9 @@ import com.caecus.asistente.restApi.EndpointsApi;
 import com.caecus.asistente.restApi.adapter.RestApiAdapter;
 import com.caecus.asistente.restApi.model.TokenResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -62,33 +64,48 @@ public class LoginActivity extends AppCompatActivity {
             tokenResponseCall.enqueue(new Callback<TokenResponse>() {
                 @Override
                 public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
-                    TokenResponse tokenResponse = response.body();
-                    long result = tokenResponse.getResult();
-                    String token = tokenResponse.getToken();
-                    if (result == 0) {
-                        Toast.makeText(getApplicationContext(),
-                                "Sesion iniciada",
-                                Toast.LENGTH_LONG).show();
-                        session.createUserLoginSession(token);
-                        // Add new Flag to start new Activity
-                        finish();
-                        Intent intent = new Intent(LoginActivity.this, MenuAsistenteActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try {
+                        TokenResponse tokenResponse;
+                        if (response.code() == 200) {
+                            tokenResponse = response.body();
+                        } else {
+                            Gson gson = new Gson();
+                            tokenResponse = gson.fromJson(response.errorBody().string(), TokenResponse.class);
+                        }
+                        long result = tokenResponse.getResult();
+                        String token = tokenResponse.getToken();
+                        if (result == 0) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Sesion iniciada",
+                                    Toast.LENGTH_LONG).show();
+                            session.createUserLoginSession(token);
+                            // Add new Flag to start new Activity
+                            finish();
+                            Intent intent = new Intent(LoginActivity.this, MenuAsistenteActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        LoginActivity.this.startActivity(intent);
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setMessage("Usuario/Contraseña incorrectos")
-                                .setNegativeButton("Reintentar", null)
-                                .create()
-                                .show();
+                            LoginActivity.this.startActivity(intent);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage("Usuario/Contraseña incorrectos")
+                                    .setNegativeButton("Reintentar", null)
+                                    .create()
+                                    .show();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
                 }
 
                 @Override
                 public void onFailure(Call<TokenResponse> call, Throwable t) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("Imposible conectar con el servidor")
+                            .setNegativeButton("Ok", null)
+                            .create()
+                            .show();
 
                 }
             });
@@ -124,7 +141,6 @@ public class LoginActivity extends AppCompatActivity {
             tilContraseña.setError("Campo vacío");
         }
         return s;
-
 
 
     }

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.caecus.asistente.AvisoActivity;
 import com.caecus.asistente.MenuAsistenteActivity;
 import com.caecus.asistente.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -33,13 +34,17 @@ public class NotificationService extends FirebaseMessagingService {
         String name = remoteMessage.getData().get("pdv");
         if (cod == 1) {
             Intent i = new Intent(this, MenuAsistenteActivity.class);
-            //i.putExtra("TEL", (remoteMessage.getData().get("telefono")));
-            //i.putExtra("LAT", Double.parseDouble(remoteMessage.getData().get("lat")));
-            //i.putExtra("LNG", Double.parseDouble(remoteMessage.getData().get("lng")));
+            Intent a = new Intent(this, AvisoActivity.class);
+            a.putExtra("TEL", (remoteMessage.getData().get("telefono")));
+            a.putExtra("LAT", Double.parseDouble(remoteMessage.getData().get("lat")));
+            a.putExtra("LNG", Double.parseDouble(remoteMessage.getData().get("lng")));
+            a.putExtra("NAME", name);
             //i.putExtra("AVISO", (remoteMessage.getData().get("aviso")));
             i.putExtra("NAME", name);
             i.putExtra("COD", cod);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_ONE_SHOT);
+
+            PendingIntent aceptIntent = PendingIntent.getActivity(this, 0, a, PendingIntent.FLAG_ONE_SHOT);
 
             Uri sonido = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
@@ -50,7 +55,9 @@ public class NotificationService extends FirebaseMessagingService {
                     .setVibrate(new long[]{100, 250, 100, 500})
                     .setContentText(name + " necesita ayuda")
                     .setAutoCancel(true)
-
+                    .setPriority(2)
+                    .addAction(R.drawable.ic_check_white_24dp, "Ayudar", aceptIntent)
+                    .addAction((R.drawable.ic_close_white_24dp), "No puedo", pendingIntent)
                     .setContentIntent(pendingIntent);
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -46,6 +46,7 @@ public class AvisoActivity extends AppCompatActivity {
             lat = extras.getDouble("LAT");
             lng = extras.getDouble("LNG");
             telefono = extras.getString("TEL");
+            name = extras.getString("NAME");
 
         }
         catch (Exception e){}
@@ -57,7 +58,7 @@ public class AvisoActivity extends AppCompatActivity {
         });
 
 
-//        nombre.setText(aviso.getNombre());
+        nombre.setText(name);
         mensaje2.setText(obtenerDireccion(lat, lng));
 
     }

@@ -37,6 +37,8 @@ public class MenuAsistenteActivity extends AppCompatActivity {
         session = new UserSessionManager(getApplicationContext());
         btnLogout = (Button) findViewById(R.id.btnLogout);
 
+        String myDeviceModel = android.os.Build.MODEL;
+        Log.e("model", myDeviceModel);
 
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
@@ -63,14 +65,18 @@ public class MenuAsistenteActivity extends AppCompatActivity {
             Bundle extras = i.getExtras();
             cod = extras.getInt("COD");
             name = extras.getString("NAME");
+            ayudante = extras.getString("AYUDANTE");
+            extras = null;
+
             if (cod == 1) {
                 Alerta(name);
             }
             if (cod == 2) {
-                ayudante = extras.getString("AYUDANTE");
                 avisoAsistencia(name, ayudante);
 
             }
+
+
         } catch (Exception e) {
         }
 
@@ -138,7 +144,6 @@ public class MenuAsistenteActivity extends AppCompatActivity {
                 .show();
 
     }
-
 
 
 }

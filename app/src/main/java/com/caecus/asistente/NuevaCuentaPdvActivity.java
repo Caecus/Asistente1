@@ -84,11 +84,10 @@ public class NuevaCuentaPdvActivity extends AppCompatActivity {
                         }
 
                         long result = tokenResponse.getResult();
-                        if (response.body() == null) {
-                            Log.d("token", "sin respuesta");
+                        // if (response.body() == null) {
+                        //   Log.d("token", "sin respuesta");
                             // return;
-                        }
-
+                        //}
 
                         if (result > 0) {
                             Toast.makeText(getApplicationContext(),
@@ -113,7 +112,11 @@ public class NuevaCuentaPdvActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<TokenResponse> call, Throwable t) {
-                    Log.e("Error", "Probando de nuevo");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NuevaCuentaPdvActivity.this);
+                    builder.setMessage("Imposible conectar con el servidor")
+                            .setNegativeButton("Ok", null)
+                            .create()
+                            .show();
                 }
             });
         }

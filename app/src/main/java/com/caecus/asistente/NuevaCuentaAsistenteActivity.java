@@ -17,6 +17,7 @@ import com.caecus.asistente.restApi.EndpointsApi;
 import com.caecus.asistente.restApi.adapter.RestApiAdapter;
 import com.caecus.asistente.restApi.model.TokenResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
             jsonBody.put("callEnable", "true");
             jsonBody.put("strEnable", "true");
             jsonBody.put("geoEnable", "true");
-            jsonBody.put("description", "desc");
+            jsonBody.put("description", android.os.Build.MODEL);
             RestApiAdapter restApiAdapter = new RestApiAdapter();
             EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
             Call<TokenResponse> tokenResponseCall = endpointsApi.register(jsonBody);
@@ -84,11 +85,14 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                     try {
-                        if (response.body() == null) {
-                            Log.d("token", "sin respuesta");
-                            return;
+                        TokenResponse tokenResponse;
+                        if (response.code() == 200) {
+                            tokenResponse = response.body();
+                        } else {
+                            Gson gson = new Gson();
+                            tokenResponse = gson.fromJson(response.errorBody().string(), TokenResponse.class);
                         }
-                        TokenResponse tokenResponse = response.body();
+
                         long result = tokenResponse.getResult();
                         if (result > 0) {
                             String token = tokenResponse.getToken();
@@ -116,7 +120,11 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<TokenResponse> call, Throwable t) {
-
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NuevaCuentaAsistenteActivity.this);
+                    builder.setMessage("Imposible conectar con el servidor")
+                            .setNegativeButton("Ok", null)
+                            .create()
+                            .show();
                 }
             });
         }
@@ -127,6 +135,7 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
 
         try {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            Log.e("error", tm.getAllCellInfo().toString());
             return tm.getDeviceId();
         } catch (Exception E) {
             return "Imei no encontrado";

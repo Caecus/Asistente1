@@ -2,7 +2,6 @@ package com.caecus.asistente.restApi;
 
 
 import com.caecus.asistente.Entidades.Aviso;
-import com.caecus.asistente.restApi.model.LoginResponse;
 import com.caecus.asistente.restApi.model.TokenResponse;
 
 import java.util.Map;
@@ -37,7 +36,7 @@ public interface EndpointsApi {
 
     @Headers( "Content-Type: application/json" )
     @POST(ConstantesRestApi.EMPAREJARPDV)
-    Call<LoginResponse> emparejarPDV(@Body Map<String, String> body);
+    Call<TokenResponse> emparejarPDV(@Body Map<String, String> body);
 
     @Headers( "Content-Type: application/json" )
     @POST(ConstantesRestApi.RECIVIRAVISO)
