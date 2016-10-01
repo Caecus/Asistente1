@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         tilEmail = (TextInputLayout) findViewById(R.id.til_usuario);
         tilContraseña = (TextInputLayout) findViewById(R.id.til_contraseña);
         session = new UserSessionManager(getApplicationContext());
+
     }
 
 
@@ -55,10 +57,11 @@ public class LoginActivity extends AppCompatActivity {
             jsonBody = new HashMap<>();
             jsonBody.put("account", usuario.getText().toString());
             jsonBody.put("password", pass.getText().toString());
-            jsonBody.put("IMEI", getIMEI());
-            jsonBody.put("GCMtoken", FirebaseInstanceId.getInstance().getId());
-            RestApiAdapter restApiAdapter = new RestApiAdapter();
+            jsonBody.put("imei", getIMEI());
+           // Log.e("FCM", FirebaseInstanceId.getInstance().getId());
+            jsonBody.put("tokenPush", FirebaseInstanceId.getInstance().getId());
 
+            RestApiAdapter restApiAdapter = new RestApiAdapter();
             EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
             Call<TokenResponse> tokenResponseCall = endpointsApi.login(jsonBody);
             tokenResponseCall.enqueue(new Callback<TokenResponse>() {
@@ -70,11 +73,13 @@ public class LoginActivity extends AppCompatActivity {
                             tokenResponse = response.body();
                         } else {
                             Gson gson = new Gson();
+                            //Log.e("error", response.errorBody().string());
                             tokenResponse = gson.fromJson(response.errorBody().string(), TokenResponse.class);
                         }
                         long result = tokenResponse.getResult();
                         String token = tokenResponse.getToken();
-                        if (result == 0) {
+                        //Tiene que ser mayor?
+                        if (result > 0) {
                             Toast.makeText(getApplicationContext(),
                                     "Sesion iniciada",
                                     Toast.LENGTH_LONG).show();

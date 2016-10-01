@@ -73,7 +73,8 @@
             android:drawableLeft="@drawable/ic_videocam_white_24dp"
             android:drawablePadding="8dp"
             android:backgroundTint="@color/colorAccent"
-            android:textColor="@color/colorFont" />
+            android:textColor="@color/colorFont"
+            android:onClick="onVideoLlamada" />
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +95,8 @@
             android:text="Terminar"
             android:drawableLeft="@drawable/ic_close_white_24dp"
             android:drawablePadding="8dp"
-            android:textColor="@color/colorFont" />
+            android:textColor="@color/colorFont"
+            android:onClick="AvisoTerminar"/>
 
         <Button
             android:id="@+id/boton_redireccion"

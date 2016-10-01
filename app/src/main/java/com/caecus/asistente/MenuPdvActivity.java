@@ -9,31 +9,21 @@ import android.widget.ListView;
 
 public class MenuPdvActivity extends AppCompatActivity {
 
-    ListView pdvList;
-    ArrayAdapter<String> pdvAdapter;
+
+    private ListView list;
+    private String[] pdv = {"Juan", "Marcos"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_pdv);
+        list = (ListView)findViewById(R.id.pdvList);
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pdv);
+        list.setAdapter(adaptador);
+
 
     }
 
-    /*  @Override
-      public View onCreateView(String name, Context context, AttributeSet attrs) {
-          return super.onCreateView(name, context, attrs);
-          pdvList = (ListView) findViewById(R.id.pdvList);
-          String[] pdvNames = {
-                  "Marcos Rogriguez",
-                  "Juan Panzetta"
-          };
-          pdvAdapter = new ArrayAdapter(
-                  getActivity(),
-                  android.R.layout.simple_list_item_1,
-                  pdvNames);
-
-      }
-  */
     public void irNuevaCuentaPDV(View V)
     {
         Intent i = new Intent(this, NuevaCuentaPdvActivity.class);

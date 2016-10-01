@@ -25,18 +25,17 @@ public interface EndpointsApi {
     @POST(ConstantesRestApi.REGISTER)
     Call<TokenResponse> register(@Body Map<String, String> body);
 
-    @Headers({"Content-Type: application/json", "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vd3d3LmNhZWN1cy5jb20uYXIvIiwicGFzc3dvcmQiOiIxMjM0IiwiYWNjb3VudCI6IkdvbnphbG9tb3JhbGVzOTNAZ21haWwuY29tIn0.ZG5pr4YbxMykaltEbKhDdNGVq5rKkUTpXvVFMBMF7gk"})
+    @Headers("Content-Type: application/json")
     @POST(ConstantesRestApi.REGISTERPDV)
-    Call<TokenResponse> registerPDV(@Body Map<String, String> body);
+    Call<TokenResponse> registerPDV(@Body Map<String, String> body, @Header("Authorization") String bearer);
 
-    //@Headers({ "Content-Type: application/json", "Authorization: Bearer " + UserSessionManager.KEY_TOKEN })
     @Headers("Content-Type: application/json")
     @POST(ConstantesRestApi.LOGOUT)
     Call<TokenResponse> logout(@Header("Authorization") String bearer);
 
     @Headers( "Content-Type: application/json" )
     @POST(ConstantesRestApi.EMPAREJARPDV)
-    Call<TokenResponse> emparejarPDV(@Body Map<String, String> body);
+    Call<TokenResponse> emparejarPDV(@Body Map<String, String> body, @Header("Authorization") String bearer);
 
     @Headers( "Content-Type: application/json" )
     @POST(ConstantesRestApi.RECIVIRAVISO)

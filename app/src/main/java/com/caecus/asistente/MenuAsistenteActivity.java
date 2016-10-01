@@ -10,9 +10,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.caecus.asistente.firebase.NotificacionIDTokenService;
 import com.caecus.asistente.restApi.EndpointsApi;
 import com.caecus.asistente.restApi.adapter.RestApiAdapter;
 import com.caecus.asistente.restApi.model.TokenResponse;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 
@@ -28,7 +30,6 @@ public class MenuAsistenteActivity extends AppCompatActivity {
     String name;
     String ayudante;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,9 @@ public class MenuAsistenteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu_asistente);
         session = new UserSessionManager(getApplicationContext());
         btnLogout = (Button) findViewById(R.id.btnLogout);
+
+        Log.e("Token", FirebaseInstanceId.getInstance().getToken());
+
 
         String myDeviceModel = android.os.Build.MODEL;
         Log.e("model", myDeviceModel);
@@ -47,7 +51,7 @@ public class MenuAsistenteActivity extends AppCompatActivity {
         // String name = user.get(UserSessionManager.KEY_NAME);
 
         // get email
-        Log.e("Error", user.get(UserSessionManager.KEY_TOKEN));
+//        Log.e("Error", user.get(UserSessionManager.KEY_TOKEN));
 
         //    username.setText(token);
 
@@ -83,34 +87,34 @@ public class MenuAsistenteActivity extends AppCompatActivity {
     }
 
     public void logout(View v) {
-        RestApiAdapter restApiAdapter = new RestApiAdapter();
-        EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
-        Call<TokenResponse> tokenResponseCall = endpointsApi.logout(session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
-        tokenResponseCall.enqueue(new Callback<TokenResponse>() {
-            @Override
-            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
-                TokenResponse tokenResponse = response.body();
-                long result = tokenResponse.getResult();
-
-                if (result == 0) {
+//        RestApiAdapter restApiAdapter = new RestApiAdapter();
+//        EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
+//        Call<TokenResponse> tokenResponseCall = endpointsApi.logout("bearer" + session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
+//        tokenResponseCall.enqueue(new Callback<TokenResponse>() {
+//            @Override
+//            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+//                TokenResponse tokenResponse = response.body();
+//                long result = tokenResponse.getResult();
+//
+//                if (result > 0) {
                     Toast.makeText(getApplicationContext(),
                             "Sesion cerrada",
                             Toast.LENGTH_LONG).show();
                     session.logoutUser();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MenuAsistenteActivity.this);
-                    builder.setMessage("Error")
-                            .setNegativeButton("Reintentar", null)
-                            .create()
-                            .show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TokenResponse> call, Throwable t) {
-
-            }
-        });
+//                } else {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(MenuAsistenteActivity.this);
+//                    builder.setMessage("Error")
+//                            .setNegativeButton("Reintentar", null)
+//                            .create()
+//                            .show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<TokenResponse> call, Throwable t) {
+//
+//            }
+//        });
 
 
     }

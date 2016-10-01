@@ -78,6 +78,7 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
             jsonBody.put("strEnable", "true");
             jsonBody.put("geoEnable", "true");
             jsonBody.put("description", android.os.Build.MODEL);
+           // jsonBody.put("description", "desc");
             RestApiAdapter restApiAdapter = new RestApiAdapter();
             EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
             Call<TokenResponse> tokenResponseCall = endpointsApi.register(jsonBody);
@@ -90,10 +91,13 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
                             tokenResponse = response.body();
                         } else {
                             Gson gson = new Gson();
+                           // Log.e("error", response.errorBody().string());
                             tokenResponse = gson.fromJson(response.errorBody().string(), TokenResponse.class);
-                        }
 
+                        }
                         long result = tokenResponse.getResult();
+                        Log.e("Error", tokenResponse.getMessage());
+
                         if (result > 0) {
                             String token = tokenResponse.getToken();
                             Toast.makeText(getApplicationContext(),
@@ -135,7 +139,7 @@ public class NuevaCuentaAsistenteActivity extends AppCompatActivity {
 
         try {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            Log.e("error", tm.getAllCellInfo().toString());
+           // Log.e("error", tm.getAllCellInfo().toString());
             return tm.getDeviceId();
         } catch (Exception E) {
             return "Imei no encontrado";

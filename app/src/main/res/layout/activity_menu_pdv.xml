@@ -64,6 +64,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/campo_btnAbajo"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:textAlignment="center" />
 
 </RelativeLayout>

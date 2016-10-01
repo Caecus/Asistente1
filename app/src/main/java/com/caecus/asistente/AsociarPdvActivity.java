@@ -51,13 +51,13 @@ public class AsociarPdvActivity extends AppCompatActivity {
         if (validar(email, pin)) {
             Map<String, String> jsonBody;
             jsonBody = new HashMap<>();
-            jsonBody.put("PDV_email", email.toString());
-            jsonBody.put("token", pin.toString());
-            jsonBody.put("helper_email", session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
+            jsonBody.put("email", email);
+            jsonBody.put("pin", pin);
+            //jsonBody.put("helper_email", session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
             RestApiAdapter restApiAdapter = new RestApiAdapter();
 
             EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
-            Call<TokenResponse> tokenResponseCall = endpointsApi.emparejarPDV(jsonBody);
+            Call<TokenResponse> tokenResponseCall = endpointsApi.emparejarPDV(jsonBody, "Bearer " + session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
             tokenResponseCall.enqueue(new Callback<TokenResponse>() {
                 @Override
                 public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {

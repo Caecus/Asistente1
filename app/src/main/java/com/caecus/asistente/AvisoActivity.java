@@ -2,6 +2,7 @@ package com.caecus.asistente;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,9 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,16 +32,18 @@ public class AvisoActivity extends AppCompatActivity {
     Button llamar;
     int cod;
     String name;
+    UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aviso);
-        UserSessionManager session = new UserSessionManager(getApplicationContext());
+        session = new UserSessionManager(getApplicationContext());
         nombre = (TextView) findViewById(R.id.txtnombre);
         mensaje2 = (TextView) findViewById(R.id.txtDireccion);
         llamar = (Button) findViewById(R.id.btnLlamar);
 
+       // Log.e("Estate", session.getUserDetails().get(UserSessionManager.KEY_STATE));
         Intent i = getIntent();
         Bundle extras = i.getExtras();
 
@@ -72,9 +77,6 @@ public class AvisoActivity extends AppCompatActivity {
             Bundle extras = i.getExtras();
             cod = extras.getInt("COD");
             name = extras.getString("NAME");
-            if (cod == 1) {
-                Alerta(name);
-            }
         } catch (Exception e) {
         }
 
@@ -117,13 +119,35 @@ public class AvisoActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void Alerta(String name) {
+    public void AvisoTerminar(View v)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(AvisoActivity.this);
-        builder.setMessage("Puede ayudar a" + name)
+        builder.setMessage("¿Seguro que desea abandonar la asistencia?")
                 .setNegativeButton("No", null)
-                .setPositiveButton("Si", null)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Terminar();}})
                 .create()
                 .show();
+        }
+
+
+    public void Terminar()
+    {
+        Toast.makeText(getApplicationContext(),
+                "Asistencia terminada",
+                Toast.LENGTH_LONG).show();
+        session.changeState(session.STATE_AVAILABLE);
+        finish();
+        Intent intent = new Intent(this, MenuAsistenteActivity.class);
+        startActivity(intent);
+    }
+
+    public void onVideoLlamada(View view)
+    {
+        Uri uri = Uri.parse("https://appr.tc/r/caecus");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
 

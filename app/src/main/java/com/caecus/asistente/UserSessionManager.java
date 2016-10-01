@@ -33,6 +33,10 @@ public class UserSessionManager {
     // public static final String KEY_NAME = "name";
     // User name (make variable public to access from outside)
     public static final String KEY_TOKEN = "token";
+    public static final String KEY_STATE = "available";
+    public static final String STATE_AVAILABLE = "available";
+    public static final String STATE_WAIT = "wait";
+    public static final String STATE_INPROGRESS = "progress";
 
     // Email address (make variable public to access from outside)
     //public static final String KEY_EMAIL = "email";
@@ -52,12 +56,19 @@ public class UserSessionManager {
         // Storing name in pref
         // editor.putString(KEY_NAME, name);
         editor.putString(KEY_TOKEN, token);
-
+        editor.putString(KEY_STATE, STATE_AVAILABLE);
         // Storing email in pref
         //editor.putString(KEY_EMAIL, email);
 
         // commit changes
         editor.commit();
+    }
+
+    public void changeState(String state)
+    {
+        editor.putString(KEY_STATE,state);
+        editor.commit();
+
     }
 
     /**
@@ -98,7 +109,7 @@ public class UserSessionManager {
 
         // user name
         user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
-
+        user.put(KEY_STATE, pref.getString(KEY_STATE, null));
         // user email id
         // user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 

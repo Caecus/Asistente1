@@ -59,22 +59,19 @@ public class NuevaCuentaPdvActivity extends AppCompatActivity {
             Map<String, String> jsonBody;
 
             jsonBody = new HashMap<>();
-            // jsonBody.put("usernameHelper", session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
             jsonBody.put("caecusName", nombretxt.getText().toString());
             jsonBody.put("caecusEmail", mailtxt.getText().toString());
             jsonBody.put("caecusPassword", contraseñatxt.getText().toString());
-            // jsonBody.put("helper", "false");
             RestApiAdapter restApiAdapter = new RestApiAdapter();
 
             EndpointsApi endpointsApi = restApiAdapter.establecerConexionRestApi();
-            Call<TokenResponse> tokenResponseCall = endpointsApi.registerPDV(jsonBody);
-
+            //Log.e("Session", session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
+            Call<TokenResponse> tokenResponseCall = endpointsApi.registerPDV(jsonBody, "Bearer " + session.getUserDetails().get(UserSessionManager.KEY_TOKEN));
             tokenResponseCall.enqueue(new Callback<TokenResponse>() {
                 @Override
                 public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                     try {
 
-                        Log.e("Error", response.toString());
                         TokenResponse tokenResponse;
                         if (response.code() == 200) {
                             tokenResponse = response.body();
@@ -82,18 +79,11 @@ public class NuevaCuentaPdvActivity extends AppCompatActivity {
                             Gson gson = new Gson();
                             tokenResponse = gson.fromJson(response.errorBody().string(), TokenResponse.class);
                         }
-
                         long result = tokenResponse.getResult();
-                        // if (response.body() == null) {
-                        //   Log.d("token", "sin respuesta");
-                            // return;
-                        //}
-
                         if (result > 0) {
                             Toast.makeText(getApplicationContext(),
                                     "Cuentra PDV creada",
                                     Toast.LENGTH_LONG).show();
-                            // Add new Flag to start new Activity
                             finish();
                             Intent intent = new Intent(NuevaCuentaPdvActivity.this, MenuPdvActivity.class);
                             NuevaCuentaPdvActivity.this.startActivity(intent);
